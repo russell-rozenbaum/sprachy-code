@@ -1,12 +1,13 @@
 # Language pack contract (locked)
 
-Every language is one folder, `languages/<iso-639-1>/`, containing exactly 3 files. The core code has no knowledge of any specific language beyond what these files provide.
+Every language is one folder, `languages/<iso-639-1>/`, containing exactly 4 files. The core code has no knowledge of any specific language beyond what these files provide.
 
 ```
 languages/<code>/
   pack.json      machine-readable: detection + tags + reminder snippets
   method.md      language-specific teaching notes (loaded on demand, ≤ ~120 lines)
-  placement.md   10-question placement test, answer key, scoring
+  placement.json 30-item multiple-choice bank for the adaptive placement test
+  placement.md   short notes on what the test covers
 ```
 
 ## pack.json schema
@@ -49,4 +50,31 @@ Rules:
 
 ## placement.md outline
 
-10 questions, A1 → C1, all shown in one message, answerable in about 2 minutes, "?" allowed. Then an answer key, a score → level table (0 → A0 … 10 → C1), and a note on which items predict level best. The "After scoring" steps come from the shared SKILL.md and must not be repeated here.
+Superseded in v0.3 by `placement.json` (adaptive and all multiple choice). `placement.md` now holds only short notes: what the items cover, and which skills predict level best. It is ≤25 lines, for humans and `/sprachy why`.
+
+## placement.json (adaptive test item bank), added in v0.3
+
+The placement test is **adaptive** (Rasch/Elo-style). `scripts/sprachy.py placement` runs **5 rounds of 3 items** (15 total). Each round picks the 3 unused items closest to the learner's current ability estimate, preferring different skills, and the estimate updates after every round. The file lives at `languages/<code>/placement.json`, next to `placement.md`.
+
+```jsonc
+{
+  "items": [
+    {
+      "id": "de-a1-1",                 // unique: <code>-<level lowercase>-<n>
+      "level": "A1",                   // A1 | A2 | B1 | B2 | C1
+      "prompt": "\"Hello, my name is Sam\" → Hallo, ___ heiße Sam.",
+      "choices": ["ich", "mich", "mein"],  // EXACTLY 3 options, each ≤40 chars, all plausible
+      "answer": "ich",                 // must equal one of choices exactly; the CLI grades deterministically
+      "skill": "pronoun"               // what it tests (a pack tag where possible), used for profile notes
+    }
+  ]
+}
+```
+
+Rules:
+- **6 items per level, A1–C1 (30 total).** Spread the skills; don't test the same thing twice at one level.
+- **A1 items must be doable by someone who can't read the script yet:** give transliteration for non-Latin scripts, and accept translit or Arabizi answers.
+- **Prompts must fit on one line** (≤120 chars) and be answerable in about 10 seconds.
+- **All multiple choice, no free text.** Items are shown in Claude's picker (AskUserQuestion). The skill adds an "I don't know" option, and the CLI shuffles the choice order.
+- **Distractors must be real learner errors** (e.g. the wrong case or aspect), not nonsense. Exactly one choice is correct.
+- For translation items, the choices are full short phrases (e.g. "Ich brauche Kaffee" / "Ich brauche den Kaffee zu" / "Ich Kaffee brauche").

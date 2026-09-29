@@ -1,0 +1,364 @@
+{
+  "items": [
+    {
+      "id": "de-a1-1",
+      "level": "A1",
+      "prompt": "\"Hello, my name is Sam\" → Hallo, ___ heiße Sam.",
+      "choices": [
+        "ich",
+        "mich",
+        "mein"
+      ],
+      "answer": "ich",
+      "skill": "vocab"
+    },
+    {
+      "id": "de-a1-2",
+      "level": "A1",
+      "prompt": "___ Haus ist groß. (the house is big)",
+      "choices": [
+        "Das",
+        "Der",
+        "Die"
+      ],
+      "answer": "Das",
+      "skill": "gender"
+    },
+    {
+      "id": "de-a1-3",
+      "level": "A1",
+      "prompt": "\"I need coffee.\"",
+      "choices": [
+        "Ich brauche Kaffee.",
+        "Ich Kaffee brauche.",
+        "Ich bin brauche Kaffee."
+      ],
+      "answer": "Ich brauche Kaffee.",
+      "skill": "v2"
+    },
+    {
+      "id": "de-a1-4",
+      "level": "A1",
+      "prompt": "Du ___ aus Berlin. (you come from Berlin)",
+      "choices": [
+        "kommst",
+        "komme",
+        "kommen"
+      ],
+      "answer": "kommst",
+      "skill": "conjugation"
+    },
+    {
+      "id": "de-a1-5",
+      "level": "A1",
+      "prompt": "\"I don't understand.\"",
+      "choices": [
+        "Ich verstehe nicht.",
+        "Ich nicht verstehe.",
+        "Ich bin nicht verstehen."
+      ],
+      "answer": "Ich verstehe nicht.",
+      "skill": "vocab"
+    },
+    {
+      "id": "de-a1-6",
+      "level": "A1",
+      "prompt": "\"Can you repeat that?\"",
+      "choices": [
+        "Kannst du das wiederholen?",
+        "Kannst du wiederholen das?",
+        "Können du das wiederholen?"
+      ],
+      "answer": "Kannst du das wiederholen?",
+      "skill": "sep-verb"
+    },
+    {
+      "id": "de-a2-1",
+      "level": "A2",
+      "prompt": "Morgen ___ ins Büro. (tomorrow I go to the office)",
+      "choices": [
+        "gehe ich",
+        "ich gehe",
+        "ich gehen"
+      ],
+      "answer": "gehe ich",
+      "skill": "v2"
+    },
+    {
+      "id": "de-a2-2",
+      "level": "A2",
+      "prompt": "Ich ___ gestern nach Berlin gefahren.",
+      "choices": [
+        "bin",
+        "habe",
+        "war"
+      ],
+      "answer": "bin",
+      "skill": "perfekt-aux"
+    },
+    {
+      "id": "de-a2-3",
+      "level": "A2",
+      "prompt": "Der Zug ___ um 8 Uhr ___. (arrives)",
+      "choices": [
+        "kommt … an",
+        "ankommt … —",
+        "an … kommt"
+      ],
+      "answer": "kommt … an",
+      "skill": "sep-verb"
+    },
+    {
+      "id": "de-a2-4",
+      "level": "A2",
+      "prompt": "\"I fixed the bug.\"",
+      "choices": [
+        "Ich habe den Bug gefixt.",
+        "Ich habe gefixt den Bug.",
+        "Ich gefixt habe den Bug."
+      ],
+      "answer": "Ich habe den Bug gefixt.",
+      "skill": "sep-verb"
+    },
+    {
+      "id": "de-a2-5",
+      "level": "A2",
+      "prompt": "Ich muss heute ___. (work)",
+      "choices": [
+        "arbeiten",
+        "arbeite",
+        "zu arbeiten"
+      ],
+      "answer": "arbeiten",
+      "skill": "conjugation"
+    },
+    {
+      "id": "de-a2-6",
+      "level": "A2",
+      "prompt": "\"aktuell\" means…",
+      "choices": [
+        "current",
+        "actual",
+        "actually"
+      ],
+      "answer": "current",
+      "skill": "false-friend"
+    },
+    {
+      "id": "de-b1-1",
+      "level": "B1",
+      "prompt": "Ich lerne Deutsch, weil ___.",
+      "choices": [
+        "ich in München arbeiten will",
+        "ich will in München arbeiten",
+        "will ich in München arbeiten"
+      ],
+      "answer": "ich in München arbeiten will",
+      "skill": "verb-final"
+    },
+    {
+      "id": "de-b1-2",
+      "level": "B1",
+      "prompt": "Ich fahre mit ___ Auto.",
+      "choices": [
+        "dem",
+        "das",
+        "den"
+      ],
+      "answer": "dem",
+      "skill": "case-dat"
+    },
+    {
+      "id": "de-b1-3",
+      "level": "B1",
+      "prompt": "Das ist für ___ Chef.",
+      "choices": [
+        "den",
+        "dem",
+        "der"
+      ],
+      "answer": "den",
+      "skill": "case-acc"
+    },
+    {
+      "id": "de-b1-4",
+      "level": "B1",
+      "prompt": "Ich glaube, dass ___.",
+      "choices": [
+        "das richtig ist",
+        "das ist richtig",
+        "ist das richtig"
+      ],
+      "answer": "das richtig ist",
+      "skill": "verb-final"
+    },
+    {
+      "id": "de-b1-5",
+      "level": "B1",
+      "prompt": "Kannst du ___ helfen?",
+      "choices": [
+        "mir",
+        "mich",
+        "ich"
+      ],
+      "answer": "mir",
+      "skill": "case-dat"
+    },
+    {
+      "id": "de-b1-6",
+      "level": "B1",
+      "prompt": "\"eventuell\" means…",
+      "choices": [
+        "maybe",
+        "eventually",
+        "finally"
+      ],
+      "answer": "maybe",
+      "skill": "false-friend"
+    },
+    {
+      "id": "de-b2-1",
+      "level": "B2",
+      "prompt": "Das ist eine gut___ Idee.",
+      "choices": [
+        "gute",
+        "guter",
+        "gutes"
+      ],
+      "answer": "gute",
+      "skill": "adj-ending"
+    },
+    {
+      "id": "de-b2-2",
+      "level": "B2",
+      "prompt": "Der Code ___ gestern getestet. (was tested)",
+      "choices": [
+        "wurde",
+        "wird",
+        "hat"
+      ],
+      "answer": "wurde",
+      "skill": "passive"
+    },
+    {
+      "id": "de-b2-3",
+      "level": "B2",
+      "prompt": "Der Kollege, ___ ich geholfen habe, ist neu.",
+      "choices": [
+        "dem",
+        "den",
+        "der"
+      ],
+      "answer": "dem",
+      "skill": "case-dat"
+    },
+    {
+      "id": "de-b2-4",
+      "level": "B2",
+      "prompt": "Wenn ich Zeit ___, würde ich helfen.",
+      "choices": [
+        "hätte",
+        "habe",
+        "hatte"
+      ],
+      "answer": "hätte",
+      "skill": "konjunktiv"
+    },
+    {
+      "id": "de-b2-5",
+      "level": "B2",
+      "prompt": "Ich lege das Handy auf ___ Tisch. (onto)",
+      "choices": [
+        "den",
+        "dem",
+        "der"
+      ],
+      "answer": "den",
+      "skill": "case-acc"
+    },
+    {
+      "id": "de-b2-6",
+      "level": "B2",
+      "prompt": "Trotz ___ Regens gehen wir raus.",
+      "choices": [
+        "des",
+        "dem",
+        "den"
+      ],
+      "answer": "des",
+      "skill": "genitive"
+    },
+    {
+      "id": "de-c1-1",
+      "level": "C1",
+      "prompt": "Most formal for \"weil der Chef es wollte\":",
+      "choices": [
+        "auf Wunsch der Leitung",
+        "weil der Boss das so wollte",
+        "wegen dem Chef seinem Wunsch"
+      ],
+      "answer": "auf Wunsch der Leitung",
+      "skill": "register"
+    },
+    {
+      "id": "de-c1-2",
+      "level": "C1",
+      "prompt": "die ___ Datei (the file changed yesterday)",
+      "choices": [
+        "gestern geänderte",
+        "gestern geändert",
+        "geänderte gestern"
+      ],
+      "answer": "gestern geänderte",
+      "skill": "adj-ending"
+    },
+    {
+      "id": "de-c1-3",
+      "level": "C1",
+      "prompt": "eine Entscheidung ___ (make a decision)",
+      "choices": [
+        "treffen",
+        "machen",
+        "tun"
+      ],
+      "answer": "treffen",
+      "skill": "collocation"
+    },
+    {
+      "id": "de-c1-4",
+      "level": "C1",
+      "prompt": "Standard German for the anglicism \"Sinn machen\":",
+      "choices": [
+        "Sinn ergeben",
+        "Sinn bauen",
+        "Sinn geben"
+      ],
+      "answer": "Sinn ergeben",
+      "skill": "false-friend"
+    },
+    {
+      "id": "de-c1-5",
+      "level": "C1",
+      "prompt": "…, weil ich es nicht ___. (couldn't do it)",
+      "choices": [
+        "habe machen können",
+        "machen können habe",
+        "habe gemacht können"
+      ],
+      "answer": "habe machen können",
+      "skill": "verb-final"
+    },
+    {
+      "id": "de-c1-6",
+      "level": "C1",
+      "prompt": "Der Test ist grün, ___ ist der Build rot.",
+      "choices": [
+        "dennoch",
+        "obwohl",
+        "trotz"
+      ],
+      "answer": "dennoch",
+      "skill": "register"
+    }
+  ]
+}

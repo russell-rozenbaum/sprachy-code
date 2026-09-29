@@ -38,7 +38,7 @@ Requires `python3` (standard library only). Then run `/sprachy language` to pick
 | `/sprachy` · `/sprachy help` | Shows all commands |
 | `/sprachy language` | Menu to pick or switch languages (progress is saved separately for each) |
 | `/sprachy status` | Level, XP, and which patterns you're still learning vs. have learned |
-| `/sprachy test` | 10-question placement test (about 2 min, A0 → C1) |
+| `/sprachy test` | Adaptive level test: 5 rounds of 3 clickable questions, each round adjusted to your answers so far (A0 → C1) |
 | `/sprachy review` | 3–5 quick drills on your most-missed patterns |
 | `/sprachy why` | Explains the last correction in more depth |
 | `/sprachy level B1` | Sets your level manually |

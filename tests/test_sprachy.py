@@ -40,7 +40,7 @@ class PackContractTest(unittest.TestCase):
         for code, pack in PACKS.items():
             with self.subTest(pack=code):
                 pack_dir = ROOT / "languages" / code
-                self.assertEqual(sorted(p.name for p in pack_dir.iterdir()), ["method.md", "pack.json", "placement.md"])
+                self.assertEqual(sorted(p.name for p in pack_dir.iterdir()), ["method.md", "pack.json", "placement.json", "placement.md"])
                 for key in self.REQUIRED:
                     self.assertIn(key, pack)
                 self.assertIn(pack["script"], ("latin", "cyrillic", "arabic"))
@@ -56,6 +56,22 @@ class PackContractTest(unittest.TestCase):
                     self.assertTrue(example.startswith(pack["flag"]))
                     [parsed] = sp.parse_footer_events(example, pack["flag"], NOW)
                     self.assertIn(parsed["tag"], pack["tags"])
+
+    def test_placement_banks(self):
+        for code in PACKS:
+            with self.subTest(pack=code):
+                items = sp.load_placement_items(code)
+                self.assertEqual(len({item["id"] for item in items}), len(items))
+                for level in sp.LEVEL_DIFFICULTY:
+                    self.assertGreaterEqual(sum(item["level"] == level for item in items), 6, level)
+                for item in items:
+                    self.assertRegex(item["id"], rf"^{code}-(a1|a2|b1|b2|c1)-\d+$")
+                    self.assertEqual(len(item["choices"]), 3, item["id"])
+                    self.assertEqual(len(set(item["choices"])), 3, item["id"])
+                    self.assertIn(item["answer"], item["choices"], item["id"])
+                    self.assertLessEqual(len(item["prompt"]), 120, item["id"])
+                    self.assertTrue(all(len(choice) <= 40 for choice in item["choices"]), item["id"])
+                    self.assertTrue(item["skill"])
 
     def test_reminder_stays_small_for_every_pack(self):
         # Paid on every prompt: guard against prompt bloat (~4 chars/token, ≤ ~450 tokens worst case).
@@ -169,6 +185,53 @@ class ReminderTest(unittest.TestCase):
         self.assertEqual(sp.last_assistant_text(lines), "🇩🇪 x [v2]")
 
 
+def simulate_placement(items, true_level, flip=lambda _item: False):
+    """Deterministic learner who knows every item at or below true_level (flip = injected slips)."""
+    order = ["A0", *sp.LEVEL_DIFFICULTY]
+    by_id, graded, ability = {i["id"]: i for i in items}, [], sp.START_ABILITY
+    for round_index in range(sp.PLACEMENT_ROUNDS):
+        for item in sp.pick_round(items, [a["id"] for a in graded], ability, round_index):
+            knows = order.index(item["level"]) <= order.index(true_level)
+            graded.append({"id": item["id"], "correct": knows != flip(item)})
+        ability = sp.estimate_ability(graded, by_id)
+    return sp.placed_level(graded, by_id, ability), graded
+
+
+class PlacementTest(unittest.TestCase):
+    def test_places_every_level_exactly_for_every_pack(self):
+        for code in PACKS:
+            items = sp.load_placement_items(code)
+            for level in ["A0", *sp.LEVEL_DIFFICULTY]:
+                with self.subTest(pack=code, level=level):
+                    placed, graded = simulate_placement(items, level)
+                    self.assertEqual(placed, level)
+                    self.assertEqual(len(graded), sp.PLACEMENT_ROUNDS * sp.ITEMS_PER_ROUND)
+
+    def test_rounds_adapt_upward_for_strong_learner(self):
+        _, graded = simulate_placement(sp.load_placement_items("de"), "C1")
+        levels = [a["id"].split("-")[1] for a in graded]
+        self.assertIn("c1", levels[3:])
+        self.assertNotIn("a1", levels[3:])
+
+    def test_one_slip_does_not_crash_level(self):
+        placed, _ = simulate_placement(sp.load_placement_items("de"), "B2", flip=lambda item: item["id"] == "de-b1-2")
+        self.assertEqual(placed, "B2")
+
+    def test_round_has_distinct_skills_and_no_repeats(self):
+        items = sp.load_placement_items("de")
+        first = sp.pick_round(items, [], sp.START_ABILITY, 0)
+        self.assertEqual(len(first), 3)
+        second = sp.pick_round(items, [i["id"] for i in first], sp.START_ABILITY, 1)
+        self.assertFalse({i["id"] for i in first} & {i["id"] for i in second})
+
+    def test_grading_uses_shuffled_letters(self):
+        item = sp.load_placement_items("de")[0]
+        right = sp.CHOICE_LETTERS[sp.shuffled_choices(item).index(item["answer"])]
+        self.assertTrue(sp.grade(item, right))
+        self.assertFalse(sp.grade(item, "?"))
+        self.assertEqual(sp.shuffled_choices(item), sp.shuffled_choices(item))  # stable between calls
+
+
 class AppTest(unittest.TestCase):
     def setUp(self):
         self.tmp = tempfile.TemporaryDirectory()
@@ -259,6 +322,20 @@ class CliTest(unittest.TestCase):
     def test_languages_lists_active(self):
         _, (_, listing) = self.run_cli(["use", "de"], ["languages"])
         self.assertRegex(listing, re.compile(r"^▶ 🇩🇪 de", re.MULTILINE))
+
+    def test_full_placement_flow_sets_level(self):
+        with tempfile.TemporaryDirectory() as home, mock.patch.dict("os.environ", {"SPRACHY_HOME": home}):
+            app = sp.Sprachy(home)
+            app.set_active("de")
+            items = {i["id"]: i for i in sp.load_placement_items("de")}
+            output = sp.run_placement(app, ["start"])
+            for _ in range(sp.PLACEMENT_ROUNDS):
+                ids = re.findall(r"^\[(de-[a-z0-9-]+)\]", output, re.MULTILINE)
+                self.assertEqual(len(ids), 3)
+                answers = [f"{i}={sp.CHOICE_LETTERS[sp.shuffled_choices(items[i]).index(items[i]['answer'])]}" for i in ids]
+                output = sp.run_placement(app, ["answer", *answers])
+            self.assertIn("DONE 🇩🇪 level C1 · 15/15", output)
+            self.assertEqual(app.learner("de").level(), "C1")
 
     def test_rejects_bad_input(self):
         [(code_lang, _), (code_level, _)] = self.run_cli(["use", "xx"], ["level", "B1"])

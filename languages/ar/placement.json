@@ -1,0 +1,364 @@
+{
+  "items": [
+    {
+      "id": "ar-a1-1",
+      "level": "A1",
+      "prompt": "How do you say \"Thanks\"?",
+      "choices": [
+        "شكرًا (shukran)",
+        "من فضلك (min faḍlak)",
+        "مرحبًا (marḥaban)"
+      ],
+      "answer": "شكرًا (shukran)",
+      "skill": "vocab"
+    },
+    {
+      "id": "ar-a1-2",
+      "level": "A1",
+      "prompt": "\"my file\" (ملف = malaff, file) →",
+      "choices": [
+        "ملفي (malaffī)",
+        "ملف أنا (malaff anā)",
+        "الملف أنا (al-malaff anā)"
+      ],
+      "answer": "ملفي (malaffī)",
+      "skill": "pronoun-suffix"
+    },
+    {
+      "id": "ar-a1-3",
+      "level": "A1",
+      "prompt": "\"I work\" → أنا ___ (anā ___)",
+      "choices": [
+        "أعمل (aʿmal)",
+        "يعمل (yaʿmal)",
+        "تعمل (taʿmal)"
+      ],
+      "answer": "أعمل (aʿmal)",
+      "skill": "verb-agree"
+    },
+    {
+      "id": "ar-a1-4",
+      "level": "A1",
+      "prompt": "\"It doesn't work.\" →",
+      "choices": [
+        "لا يعمل (lā yaʿmal)",
+        "ليس يعمل (laysa yaʿmal)",
+        "لا عمل (lā ʿamal)"
+      ],
+      "answer": "لا يعمل (lā yaʿmal)",
+      "skill": "negation"
+    },
+    {
+      "id": "ar-a1-5",
+      "level": "A1",
+      "prompt": "\"a new screen\" (شاشة = shāsha, f.) → شاشة ___ (shāsha ___)",
+      "choices": [
+        "جديدة (jadīda)",
+        "جديد (jadīd)",
+        "الجديدة (al-jadīda)"
+      ],
+      "answer": "جديدة (jadīda)",
+      "skill": "gender-agree"
+    },
+    {
+      "id": "ar-a1-6",
+      "level": "A1",
+      "prompt": "\"folder\" (as in a code folder) →",
+      "choices": [
+        "مجلد (mujallad)",
+        "ملف (malaff)",
+        "مكتب (maktab)"
+      ],
+      "answer": "مجلد (mujallad)",
+      "skill": "false-friend"
+    },
+    {
+      "id": "ar-a2-1",
+      "level": "A2",
+      "prompt": "\"She works at a company\" → هي ___ في شركة (hiya ___ fī sharika)",
+      "choices": [
+        "تعمل (taʿmal)",
+        "يعمل (yaʿmal)",
+        "أعمل (aʿmal)"
+      ],
+      "answer": "تعمل (taʿmal)",
+      "skill": "gender-agree"
+    },
+    {
+      "id": "ar-a2-2",
+      "level": "A2",
+      "prompt": "\"The file doesn't work\" → ___ لا يعمل (___ lā yaʿmal)",
+      "choices": [
+        "الملف (al-malaff)",
+        "ملف (malaff)",
+        "ملفات (malaffāt)"
+      ],
+      "answer": "الملف (al-malaff)",
+      "skill": "definite"
+    },
+    {
+      "id": "ar-a2-3",
+      "level": "A2",
+      "prompt": "\"the big file\" → الملف ___ (al-malaff ___)",
+      "choices": [
+        "الكبير (al-kabīr)",
+        "كبير (kabīr)",
+        "الكبيرة (al-kabīra)"
+      ],
+      "answer": "الكبير (al-kabīr)",
+      "skill": "adj-agree"
+    },
+    {
+      "id": "ar-a2-4",
+      "level": "A2",
+      "prompt": "\"I'm looking for the error\" → أبحث ___ الخطأ (abḥathu ___ al-khaṭaʾ)",
+      "choices": [
+        "عن (ʿan)",
+        "على (ʿalā)",
+        "إلى (ilā)"
+      ],
+      "answer": "عن (ʿan)",
+      "skill": "prep"
+    },
+    {
+      "id": "ar-a2-5",
+      "level": "A2",
+      "prompt": "\"We work\" → نحن ___ (naḥnu ___)",
+      "choices": [
+        "نعمل (naʿmal)",
+        "يعملون (yaʿmalūn)",
+        "أعمل (aʿmal)"
+      ],
+      "answer": "نعمل (naʿmal)",
+      "skill": "verb-agree"
+    },
+    {
+      "id": "ar-a2-6",
+      "level": "A2",
+      "prompt": "\"Send it to me\" → أرسله ___ (arsilhu ___)",
+      "choices": [
+        "إليّ (ilayya)",
+        "إلى أنا (ilā anā)",
+        "إليه (ilayhi)"
+      ],
+      "answer": "إليّ (ilayya)",
+      "skill": "pronoun-suffix"
+    },
+    {
+      "id": "ar-b1-1",
+      "level": "B1",
+      "prompt": "\"the program's file\" →",
+      "choices": [
+        "ملف البرنامج",
+        "الملف البرنامج",
+        "البرنامج ملف"
+      ],
+      "answer": "ملف البرنامج",
+      "skill": "idafa"
+    },
+    {
+      "id": "ar-b1-2",
+      "level": "B1",
+      "prompt": "\"The files are big.\" → الملفات ___",
+      "choices": [
+        "كبيرة",
+        "كبيرون",
+        "كبير"
+      ],
+      "answer": "كبيرة",
+      "skill": "nonhuman-plural"
+    },
+    {
+      "id": "ar-b1-3",
+      "level": "B1",
+      "prompt": "\"The developers wrote the code.\" → ___ المطورون الكود",
+      "choices": [
+        "كتب",
+        "كتبوا",
+        "كتبت"
+      ],
+      "answer": "كتب",
+      "skill": "verb-agree"
+    },
+    {
+      "id": "ar-b1-4",
+      "level": "B1",
+      "prompt": "\"Can you help me?\" → هل يمكنك ___؟",
+      "choices": [
+        "مساعدتي",
+        "مساعدة أنا",
+        "تساعد أنا"
+      ],
+      "answer": "مساعدتي",
+      "skill": "pronoun-suffix"
+    },
+    {
+      "id": "ar-b1-5",
+      "level": "B1",
+      "prompt": "\"The screen stopped.\" → الشاشة ___",
+      "choices": [
+        "توقفت",
+        "توقف",
+        "توقفوا"
+      ],
+      "answer": "توقفت",
+      "skill": "gender-agree"
+    },
+    {
+      "id": "ar-b1-6",
+      "level": "B1",
+      "prompt": "\"It depends on the version.\" → يعتمد ___ النسخة",
+      "choices": [
+        "على",
+        "في",
+        "من"
+      ],
+      "answer": "على",
+      "skill": "prep"
+    },
+    {
+      "id": "ar-b2-1",
+      "level": "B2",
+      "prompt": "\"two servers\" (خادم = server) →",
+      "choices": [
+        "خادمان",
+        "اثنان خوادم",
+        "خادمات"
+      ],
+      "answer": "خادمان",
+      "skill": "dual"
+    },
+    {
+      "id": "ar-b2-2",
+      "level": "B2",
+      "prompt": "\"the program's new file\" →",
+      "choices": [
+        "ملف البرنامج الجديد",
+        "الملف البرنامج الجديد",
+        "ملف البرنامج جديد"
+      ],
+      "answer": "ملف البرنامج الجديد",
+      "skill": "adj-agree"
+    },
+    {
+      "id": "ar-b2-3",
+      "level": "B2",
+      "prompt": "\"the files that I deleted\" → الملفات ___ حذفتها",
+      "choices": [
+        "التي",
+        "الذين",
+        "الذي"
+      ],
+      "answer": "التي",
+      "skill": "nonhuman-plural"
+    },
+    {
+      "id": "ar-b2-4",
+      "level": "B2",
+      "prompt": "\"It didn't work.\" →",
+      "choices": [
+        "لم يعمل",
+        "لم عمل",
+        "لا عمل"
+      ],
+      "answer": "لم يعمل",
+      "skill": "negation"
+    },
+    {
+      "id": "ar-b2-5",
+      "level": "B2",
+      "prompt": "\"The (female) engineers finished the task.\" → ___ المهندسات المهمة",
+      "choices": [
+        "أنهت",
+        "أنهين",
+        "أنهى"
+      ],
+      "answer": "أنهت",
+      "skill": "verb-agree"
+    },
+    {
+      "id": "ar-b2-6",
+      "level": "B2",
+      "prompt": "\"our project's code\" →",
+      "choices": [
+        "كود مشروعنا",
+        "الكود مشروعنا",
+        "كود المشروعنا"
+      ],
+      "answer": "كود مشروعنا",
+      "skill": "idafa"
+    },
+    {
+      "id": "ar-c1-1",
+      "level": "C1",
+      "prompt": "\"three files\" → ___ ملفات",
+      "choices": [
+        "ثلاثة",
+        "ثلاث",
+        "ثلاثون"
+      ],
+      "answer": "ثلاثة",
+      "skill": "number-noun"
+    },
+    {
+      "id": "ar-c1-2",
+      "level": "C1",
+      "prompt": "\"the program's two files\" (subject) →",
+      "choices": [
+        "ملفا البرنامج",
+        "ملفان البرنامج",
+        "الملفان البرنامج"
+      ],
+      "answer": "ملفا البرنامج",
+      "skill": "dual"
+    },
+    {
+      "id": "ar-c1-3",
+      "level": "C1",
+      "prompt": "\"the new version of the app\" (النسخة = version) →",
+      "choices": [
+        "نسخة التطبيق الجديدة",
+        "نسخة التطبيق الجديد",
+        "النسخة التطبيق الجديدة"
+      ],
+      "answer": "نسخة التطبيق الجديدة",
+      "skill": "adj-agree"
+    },
+    {
+      "id": "ar-c1-4",
+      "level": "C1",
+      "prompt": "\"because it (the code) works\" →",
+      "choices": [
+        "لأنه يعمل",
+        "لأن هو يعمل",
+        "لأن يعمل"
+      ],
+      "answer": "لأنه يعمل",
+      "skill": "pronoun-suffix"
+    },
+    {
+      "id": "ar-c1-5",
+      "level": "C1",
+      "prompt": "\"The team is responsible for the server.\" → الفريق مسؤول ___ الخادم",
+      "choices": [
+        "عن",
+        "على",
+        "لـ"
+      ],
+      "answer": "عن",
+      "skill": "prep"
+    },
+    {
+      "id": "ar-c1-6",
+      "level": "C1",
+      "prompt": "\"Security is important.\" (generic) → ___ مهم",
+      "choices": [
+        "الأمان",
+        "أمان",
+        "الأمان هو"
+      ],
+      "answer": "الأمان",
+      "skill": "definite"
+    }
+  ]
+}

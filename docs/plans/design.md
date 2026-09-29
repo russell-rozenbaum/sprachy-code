@@ -18,6 +18,7 @@ Treat daily Claude Code use as low-friction German practice for English speakers
 | Profile notes | Updated by Claude only during `test` / `review` | Writing notes every turn would add tool calls and permission prompts. |
 | Multi-language | One repo; language packs in `languages/<code>/`; one language active at a time; progress kept per language | About 80% of the code is language-neutral. A contract test keeps every pack consistent. |
 | Language menu | `/sprachy language` → the built-in AskUserQuestion picker | Native UI, no extra code. Its 4-option limit is handled with an "Other" entry for the rest. |
+| Placement | Adaptive: 5 rounds × 3 multiple-choice items in Claude's picker. Rasch/Elo θ picks items near θ−s, θ, θ+s; the final level is the highest band with ≥60% correct | User wanted it quick and adaptive. The CLI grades deterministically. Simulated learners are placed exactly at every level in every pack; with 15% random slips, 80% are placed exactly. |
 | Runtime | Python 3 stdlib, pure-function core | No dependencies; the core is fully unit-tested. |
 
 ## Footer contract (hook ↔ reminder ↔ SKILL.md)

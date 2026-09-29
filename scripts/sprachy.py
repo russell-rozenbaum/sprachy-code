@@ -13,11 +13,15 @@ Subcommands:
   use <code>          switch the active language (e.g. use ru)
   level <A0-C2>       set the active language's CEFR level
   on | off            toggle the tutor
+  placement start     begin the adaptive placement test (prints round 1)
+  placement answer <id>=<a|b|c|?> …   grade a round, print the next one (or the result)
 """
 from __future__ import annotations
 
 import json
+import math
 import os
+import random
 import re
 import sys
 from datetime import datetime, timedelta, timezone
@@ -187,7 +191,7 @@ def build_reminder(pack: Dict, level: Optional[str], due: List[Dict], quiet: boo
         f"Tags: {', '.join(pack['tags'])}. Details: sprachy skill.",
     ]
     if level is None:
-        lines.append("No level yet → once per session append to the footer: · `/sprachy test` sets your level (2 min).")
+        lines.append("No level yet → once per session append to the footer: · `/sprachy test` finds your level (5 quick rounds).")
     for item in due:
         lines.append(f"Review due [{item['tag']}] e.g. \"{item['example']}\": if natural, footer may be a quick recall cue instead.")
     return "\n".join(lines)
@@ -242,6 +246,112 @@ def last_assistant_text(transcript_lines: Iterable[str]) -> str:
         if joined:
             last = joined
     return last
+
+
+# ---------- adaptive placement (Rasch / Elo-style) ----------
+# Item difficulty in logits per CEFR band; ability θ is estimated on the same scale.
+LEVEL_DIFFICULTY = {"A1": -2.0, "A2": -1.0, "B1": 0.0, "B2": 1.0, "C1": 2.0}
+PLACEMENT_ROUNDS = 5
+ITEMS_PER_ROUND = 3
+START_ABILITY = -1.0  # start at A2: most learners who try the test are beginners
+# Big steps early, fine-tuning later (Elo K-factor decay).
+K_BY_ROUND = (1.2, 1.0, 0.8, 0.6, 0.5)
+# Each round probes around θ: below / at / above, narrowing as the estimate settles.
+PROBE_SPREAD_BY_ROUND = (1.0, 0.8, 0.6, 0.4, 0.25)
+CHOICE_LETTERS = "abc"
+
+
+def expected_correct(ability: float, difficulty: float) -> float:
+    return 1.0 / (1.0 + math.exp(difficulty - ability))
+
+
+def estimate_ability(graded: List[Dict], items_by_id: Dict[str, Dict]) -> float:
+    """Replay graded answers round by round; each answer nudges θ by K * (actual − expected)."""
+    ability = START_ABILITY
+    for index, answer in enumerate(graded):
+        k = K_BY_ROUND[min(index // ITEMS_PER_ROUND, len(K_BY_ROUND) - 1)]
+        difficulty = LEVEL_DIFFICULTY[items_by_id[answer["id"]]["level"]]
+        ability += k * ((1.0 if answer["correct"] else 0.0) - expected_correct(ability, difficulty))
+    return ability
+
+
+def ability_to_level(ability: float) -> str:
+    for level, upper in (("A0", -2.5), ("A1", -1.5), ("A2", -0.5), ("B1", 0.5), ("B2", 1.5)):
+        if ability < upper:
+            return level
+    return "C1"
+
+
+def placed_level(graded: List[Dict], items_by_id: Dict[str, Dict], ability: float) -> str:
+    """Final verdict: highest band where the learner got ≥60% right, climbing without gaps.
+
+    θ drives item selection; the verdict uses per-band accuracy because it's explainable
+    ("you got most B1 items right") and avoids θ landing on a band edge.
+    """
+    level = "A0"
+    for band in LEVEL_DIFFICULTY:
+        answers = [a for a in graded if items_by_id[a["id"]]["level"] == band]
+        if not answers:
+            # Unprobed band: trust θ only if it clearly clears this band.
+            if ability >= LEVEL_DIFFICULTY[band]:
+                level = band
+                continue
+            break
+        if sum(a["correct"] for a in answers) / len(answers) < 0.6:
+            break
+        level = band
+    return level
+
+
+def pick_round(items: List[Dict], used_ids: Iterable[str], ability: float, round_index: int) -> List[Dict]:
+    """3 unused items nearest to θ−s, θ, θ+s, preferring skills not already picked this round."""
+    used, spread = set(used_ids), PROBE_SPREAD_BY_ROUND[min(round_index, len(PROBE_SPREAD_BY_ROUND) - 1)]
+    picked: List[Dict] = []
+    for target in (ability - spread, ability, ability + spread):
+        candidates = [item for item in items if item["id"] not in used and item not in picked]
+        if not candidates:
+            break
+        skills = {item["skill"] for item in picked}
+        picked.append(min(candidates, key=lambda item: (
+            abs(LEVEL_DIFFICULTY[item["level"]] - target), item["skill"] in skills, item["id"])))
+    return sorted(picked, key=lambda item: LEVEL_DIFFICULTY[item["level"]])
+
+
+def shuffled_choices(item: Dict) -> List[str]:
+    """Stable per-item shuffle so the answer isn't always first, and letters don't move between calls."""
+    choices = list(item["choices"])
+    random.Random(item["id"]).shuffle(choices)
+    return choices
+
+
+def grade(item: Dict, letter: str) -> bool:
+    choices = shuffled_choices(item)
+    index = CHOICE_LETTERS.find(letter.strip().lower()[:1]) if letter else -1
+    return 0 <= index < len(choices) and choices[index] == item["answer"]
+
+
+def format_round(round_items: List[Dict], round_index: int, ability: float) -> str:
+    lines = [f"ROUND {round_index + 1}/{PLACEMENT_ROUNDS} · estimate {ability_to_level(ability)}"]
+    for item in round_items:
+        options = "  ".join(f"{letter}) {choice}" for letter, choice in zip(CHOICE_LETTERS, shuffled_choices(item)))
+        lines.append(f"[{item['id']}] {item['prompt']}\n    {options}")
+    return "\n".join(lines)
+
+
+def format_feedback(graded_round: List[Dict], items_by_id: Dict[str, Dict]) -> str:
+    return "\n".join(
+        f"{'✓' if answer['correct'] else '✗'} {items_by_id[answer['id']]['prompt']}"
+        + ("" if answer["correct"] else f" → {items_by_id[answer['id']]['answer']}")
+        for answer in graded_round
+    )
+
+
+def summarize_placement(graded: List[Dict], items_by_id: Dict[str, Dict]) -> Dict[str, List[str]]:
+    """Skills answered right vs. missed, lowest level first — feeds profile.md Strengths / Focus next."""
+    ordered = sorted(graded, key=lambda a: LEVEL_DIFFICULTY[items_by_id[a["id"]]["level"]])
+    strengths = [items_by_id[a["id"]]["skill"] for a in ordered if a["correct"]]
+    missed = [items_by_id[a["id"]]["skill"] for a in ordered if not a["correct"]]
+    return {"strengths": list(dict.fromkeys(strengths)), "focus": list(dict.fromkeys(missed))[:2]}
 
 
 # ---------- imperative shell ----------
@@ -302,6 +412,20 @@ class LearnerStore:
         existing = self.profile.read_text(encoding="utf-8") if self.profile.exists() else "# Sprachy learner profile\n\nlevel: A1\n"
         updated = LEVEL_RE.sub(f"level: {level}", existing, count=1) if LEVEL_RE.search(existing) else f"level: {level}\n{existing}"
         self.profile.write_text(updated, encoding="utf-8")
+
+    @property
+    def placement_file(self) -> Path:
+        return self.root / "placement.json"
+
+    def placement_answers(self) -> List[Dict]:
+        try:
+            return json.loads(self.placement_file.read_text(encoding="utf-8"))["answers"]
+        except (OSError, ValueError, KeyError):
+            return []
+
+    def save_placement_answers(self, answers: List[Dict]) -> None:
+        self.root.mkdir(parents=True, exist_ok=True)
+        self.placement_file.write_text(json.dumps({"answers": answers}, ensure_ascii=False) + "\n", encoding="utf-8")
 
     def summary(self) -> str:
         level, xp = self.level(), total_xp(self.events())
@@ -399,6 +523,45 @@ def run_status(app: Sprachy, now: datetime) -> str:
     return "\n".join([detail, f"(pack notes: {PACKS_DIR / pack['code']})"] + tail)
 
 
+def load_placement_items(code: str, packs_dir: Path = PACKS_DIR) -> List[Dict]:
+    return json.loads((packs_dir / code / "placement.json").read_text(encoding="utf-8"))["items"]
+
+
+def run_placement(app: Sprachy, args: List[str]) -> str:
+    """`start` → round 1. `answer id=a …` → feedback + next round, or the final level (also saved)."""
+    pack = app.active_pack()
+    if not pack:
+        return "No active language. Pick one first: /sprachy language"
+    learner = app.learner(pack["code"])
+    items = load_placement_items(pack["code"])
+    items_by_id = {item["id"]: item for item in items}
+    if not args or args[0] == "start":
+        learner.save_placement_answers([])
+        return format_round(pick_round(items, [], START_ABILITY, 0), 0, START_ABILITY)
+
+    graded = learner.placement_answers()
+    new_answers = []
+    for pair in args[1:]:
+        item_id, _, letter = pair.partition("=")
+        if item_id in items_by_id and item_id not in {a["id"] for a in graded}:
+            new_answers.append({"id": item_id, "correct": grade(items_by_id[item_id], letter)})
+    graded += new_answers
+    learner.save_placement_answers(graded)
+    ability = estimate_ability(graded, items_by_id)
+    feedback = format_feedback(new_answers, items_by_id)
+    round_index = len(graded) // ITEMS_PER_ROUND
+    if round_index < PLACEMENT_ROUNDS:
+        next_round = pick_round(items, [a["id"] for a in graded], ability, round_index)
+        if next_round:
+            return f"{feedback}\n\n{format_round(next_round, round_index, ability)}"
+    level = placed_level(graded, items_by_id, ability)
+    learner.set_level(level)
+    notes = summarize_placement(graded, items_by_id)
+    correct = sum(a["correct"] for a in graded)
+    return (f"{feedback}\n\nDONE {pack['flag']} level {level} · {correct}/{len(graded)} correct · θ {ability:+.2f}\n"
+            f"strengths: {', '.join(notes['strengths']) or '—'}\nfocus next: {', '.join(notes['focus']) or '—'}")
+
+
 def main(argv: List[str]) -> int:
     app = Sprachy()
     now = datetime.now(timezone.utc)
@@ -432,6 +595,8 @@ def main(argv: List[str]) -> int:
                 return 2
             app.learner(pack["code"]).set_level(arg.upper())
             print(f"{pack['flag']} level set: {arg.upper()}")
+        elif command == "placement":
+            print(run_placement(app, argv[2:]))
         elif command in ("on", "off"):
             app.set_enabled(command == "on")
             print(f"sprachy {command.upper()}")

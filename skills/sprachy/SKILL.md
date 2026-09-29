@@ -10,7 +10,7 @@ allowed-tools: Bash(python3:*)
 Sprachy Terminal is the in-editor companion to the Sprachy app. The hook adds a short tutor reminder to each prompt. This skill runs the commands and holds the shared method. The source language is always English.
 
 - **CLI:** `python3 "${CLAUDE_PLUGIN_ROOT}/scripts/sprachy.py" <cmd>`
-- **Language packs:** `${CLAUDE_PLUGIN_ROOT}/languages/<code>/`, each with `pack.json`, `method.md` and `placement.md`.
+- **Language packs:** `${CLAUDE_PLUGIN_ROOT}/languages/<code>/`, each with `pack.json`, `method.md`, `placement.json` (question bank) and `placement.md`.
 - **Learner state:** `~/.sprachy-code/` (or `$SPRACHY_HOME`), with `config.json` for the active language, a global `off` flag, and a `<code>/` folder per language holding `profile.md` (which you maintain), `log.jsonl` (hooks only) and `cooldown`.
 
 ## Live state (already loaded, so don't re-run these)
@@ -30,7 +30,7 @@ Status:
 | *(none)* / `help` | Print the **help card** below as-is, then the first line of the live status. |
 | `language` / `lang` | Open the **language menu** (see below). |
 | `status` | Show the live status in a code block. That's all; no extra reads. |
-| `test` | Run the active pack's `placement.md`, then do **After scoring**. |
+| `test` | Run the **adaptive placement test** (see below). |
 | `review` | Give 3–5 quick drills, one at a time, on the most-missed patterns in the CLI `status` output. Grade tersely, then append 1–3 dated bullets to the `## Notes` section of `profile.md`. |
 | `why` | Expand the last flagged correction: the rule, 2 examples and 1 try-it sentence, in ≤8 lines. Use the active pack's `method.md`. |
 | `level X` | Run the CLI `level X`. |
@@ -42,7 +42,7 @@ Status:
 Sprachy Terminal: learn a language while you code
   /sprachy language   pick or switch the language you're learning
   /sprachy status     level, XP, and patterns you're learning vs. have learned
-  /sprachy test       2-minute placement test for the current language
+  /sprachy test       adaptive level test: 5 quick rounds of 3 clickable questions
   /sprachy review     3–5 quick drills on your most-missed patterns
   /sprachy why        explain the last correction in more depth
   /sprachy level B1   set your level manually (A0–C2)
@@ -56,12 +56,20 @@ task first. At most one tiny fix every ~3 prompts, and only the ones that matter
 1. Use the live language list above. It already shows each pack's flag, name, native name, progress, and `▶` on the active one.
 2. Immediately call **AskUserQuestion** with a single question, "Which language do you want to practice?", header "Language". Make one option per pack: label `<flag> <Name>`, and description `<Native name> · <progress or "new">`. Add "(current)" to the label of the active pack. If there are more than 4 packs, show the active pack plus the 3 with the most XP; the built-in "Other" option covers the rest by name or code.
 3. Run the CLI `use <code>` and echo its one-line result.
-4. If that language has no level yet, offer in one line: "Take the 2-minute placement test? `/sprachy test`".
+4. If that language has no level yet, offer in one line: "Find your level with 5 quick rounds of clickable questions? `/sprachy test`".
 
-### After scoring (placement)
-1. Run the CLI `level <X>`.
-2. Write the language's `profile.md` from the template below. Record the correct items under "Strengths". Under "Focus next", list only **1–2** missed items, starting with the lowest level.
-3. Reply in ≤3 lines: the level, one strength, and a micro-goal for the next prompt, e.g. *Next prompt: start with "Kannst du …" instead of "Can you …"*.
+### Adaptive placement test (5 rounds × 3 questions, all multiple choice)
+The CLI picks and grades every question, so never judge answers yourself and never reveal the answer before the user picks.
+1. Run the CLI `placement start`. It prints `ROUND 1/5` and 3 items, e.g. `[de-b1-2] Ich fahre mit ___ Auto.` followed by `a) das  b) dem  c) den`.
+2. Call **AskUserQuestion** once, with all 3 items as 3 questions:
+   - `question`: the item prompt.
+   - `header`: `R1 · Q1`, `R1 · Q2`, `R1 · Q3`.
+   - `options`: the 3 choices in the printed order (label = the choice text exactly), plus a 4th option `🤷 I don't know`.
+   - Don't add descriptions or hints.
+3. Map each pick back to its letter (a/b/c). Treat "I don't know" or a free-text "Other" as `?`. Then run the CLI `placement answer <id>=<letter> <id>=<letter> <id>=<letter>`.
+4. The output starts with ✓/✗ feedback lines. Show them as-is (a quick learning moment). Then:
+   - If it prints the next `ROUND n/5`, repeat from step 2 with no other commentary.
+   - If it prints `DONE`, the level is already saved. Write the language's `profile.md` from the template: record the `strengths` under "Strengths" and the `focus next` items under "Focus next". Then reply in ≤3 lines: the level, one strength, and a micro-goal for the next prompt, e.g. *Next prompt: start with "Kannst du …" instead of "Can you …"*.
 
 ### Status line (XP badge)
 The badge looks like `🇩🇪 ✓ B1 · Lv3 ▰▰▱▱▱ 340xp`, or `🇩🇪 ✗ off`. Plugins can't set the status line themselves. Read `~/.claude/settings.json`:
@@ -93,7 +101,7 @@ For language-specific priorities, see the active pack's `method.md`. For the res
 # Sprachy learner profile: <Name>
 
 level: A1
-placed: 2026-01-01 (placement 4/10)
+placed: 2026-01-01 (placement 11/15)
 
 ## Strengths
 ## Focus next

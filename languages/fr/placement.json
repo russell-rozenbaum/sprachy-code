@@ -1,0 +1,364 @@
+{
+  "items": [
+    {
+      "id": "fr-a1-1",
+      "level": "A1",
+      "prompt": "\"I'm 25\" → J'___ 25 ans.",
+      "choices": [
+        "ai",
+        "suis",
+        "es"
+      ],
+      "answer": "ai",
+      "skill": "avoir-expr"
+    },
+    {
+      "id": "fr-a1-2",
+      "level": "A1",
+      "prompt": "___ fonction ne marche pas.",
+      "choices": [
+        "La",
+        "Le",
+        "Un"
+      ],
+      "answer": "La",
+      "skill": "gender"
+    },
+    {
+      "id": "fr-a1-3",
+      "level": "A1",
+      "prompt": "\"I need help\" →",
+      "choices": [
+        "J'ai besoin d'aide.",
+        "Je besoin d'aide.",
+        "Je suis besoin d'aide."
+      ],
+      "answer": "J'ai besoin d'aide.",
+      "skill": "vocab"
+    },
+    {
+      "id": "fr-a1-4",
+      "level": "A1",
+      "prompt": "\"It doesn't work\" →",
+      "choices": [
+        "Ça ne marche pas.",
+        "Ça pas marche.",
+        "Ça ne pas marche."
+      ],
+      "answer": "Ça ne marche pas.",
+      "skill": "negation"
+    },
+    {
+      "id": "fr-a1-5",
+      "level": "A1",
+      "prompt": "\"I'm in Paris\" → Je suis ___ Paris.",
+      "choices": [
+        "à",
+        "en",
+        "dans"
+      ],
+      "answer": "à",
+      "skill": "prep"
+    },
+    {
+      "id": "fr-a1-6",
+      "level": "A1",
+      "prompt": "\"I finished\" → J'___ fini.",
+      "choices": [
+        "ai",
+        "suis",
+        "as"
+      ],
+      "answer": "ai",
+      "skill": "aux-etre"
+    },
+    {
+      "id": "fr-a2-1",
+      "level": "A2",
+      "prompt": "Hier, je ___ allé au bureau.",
+      "choices": [
+        "suis",
+        "ai",
+        "étais"
+      ],
+      "answer": "suis",
+      "skill": "aux-etre"
+    },
+    {
+      "id": "fr-a2-2",
+      "level": "A2",
+      "prompt": "Je n'ai pas ___ temps.",
+      "choices": [
+        "de",
+        "du",
+        "le"
+      ],
+      "answer": "de",
+      "skill": "negation"
+    },
+    {
+      "id": "fr-a2-3",
+      "level": "A2",
+      "prompt": "J'habite ___ France.",
+      "choices": [
+        "en",
+        "dans",
+        "à"
+      ],
+      "answer": "en",
+      "skill": "prep"
+    },
+    {
+      "id": "fr-a2-4",
+      "level": "A2",
+      "prompt": "\"I'm sending him an email\" → Je ___ envoie un mail.",
+      "choices": [
+        "lui",
+        "le",
+        "à lui"
+      ],
+      "answer": "lui",
+      "skill": "pronoun-order"
+    },
+    {
+      "id": "fr-a2-5",
+      "level": "A2",
+      "prompt": "C'est une ___ idée.",
+      "choices": [
+        "bonne",
+        "bon",
+        "bons"
+      ],
+      "answer": "bonne",
+      "skill": "adj-agree"
+    },
+    {
+      "id": "fr-a2-6",
+      "level": "A2",
+      "prompt": "\"You're right\" → Tu ___ raison.",
+      "choices": [
+        "as",
+        "es",
+        "est"
+      ],
+      "answer": "as",
+      "skill": "avoir-expr"
+    },
+    {
+      "id": "fr-b1-1",
+      "level": "B1",
+      "prompt": "Je ___ quand le serveur a planté.",
+      "choices": [
+        "codais",
+        "ai codé",
+        "code"
+      ],
+      "answer": "codais",
+      "skill": "past-aspect"
+    },
+    {
+      "id": "fr-b1-2",
+      "level": "B1",
+      "prompt": "\"The bug? I'm fixing it.\" → Le bug ?",
+      "choices": [
+        "Je le corrige.",
+        "Je corrige le.",
+        "Je corrige lui."
+      ],
+      "answer": "Je le corrige.",
+      "skill": "pronoun-order"
+    },
+    {
+      "id": "fr-b1-3",
+      "level": "B1",
+      "prompt": "\"I've worked here for 3 years (and still do)\" → Je travaille ici ___ trois ans.",
+      "choices": [
+        "depuis",
+        "pendant",
+        "pour"
+      ],
+      "answer": "depuis",
+      "skill": "prep"
+    },
+    {
+      "id": "fr-b1-4",
+      "level": "B1",
+      "prompt": "\"Actually, it works.\" →",
+      "choices": [
+        "En fait, ça marche.",
+        "Actuellement, ça marche.",
+        "Éventuellement, ça marche."
+      ],
+      "answer": "En fait, ça marche.",
+      "skill": "false-friend"
+    },
+    {
+      "id": "fr-b1-5",
+      "level": "B1",
+      "prompt": "\"I've never tested that\" →",
+      "choices": [
+        "Je n'ai jamais testé ça.",
+        "Je n'ai testé jamais ça.",
+        "Je jamais ai testé ça."
+      ],
+      "answer": "Je n'ai jamais testé ça.",
+      "skill": "negation"
+    },
+    {
+      "id": "fr-b1-6",
+      "level": "B1",
+      "prompt": "Il y a ___ erreur dans le code.",
+      "choices": [
+        "une",
+        "un",
+        "le"
+      ],
+      "answer": "une",
+      "skill": "gender"
+    },
+    {
+      "id": "fr-b2-1",
+      "level": "B2",
+      "prompt": "Il faut que tu ___ les tests.",
+      "choices": [
+        "fasses",
+        "fais",
+        "faire"
+      ],
+      "answer": "fasses",
+      "skill": "subjunctive"
+    },
+    {
+      "id": "fr-b2-2",
+      "level": "B2",
+      "prompt": "\"It's a good tool\" → ___ un bon outil.",
+      "choices": [
+        "C'est",
+        "Il est",
+        "Elle est"
+      ],
+      "answer": "C'est",
+      "skill": "c-est"
+    },
+    {
+      "id": "fr-b2-3",
+      "level": "B2",
+      "prompt": "Je me ___ trompé de branche.",
+      "choices": [
+        "suis",
+        "ai",
+        "sommes"
+      ],
+      "answer": "suis",
+      "skill": "aux-etre"
+    },
+    {
+      "id": "fr-b2-4",
+      "level": "B2",
+      "prompt": "Les tests sont ___.",
+      "choices": [
+        "passés",
+        "passé",
+        "passées"
+      ],
+      "answer": "passés",
+      "skill": "adj-agree"
+    },
+    {
+      "id": "fr-b2-5",
+      "level": "B2",
+      "prompt": "\"I realized there was a bug\" →",
+      "choices": [
+        "Je me suis rendu compte du bug.",
+        "J'ai réalisé le bug.",
+        "Je suis réalisé le bug."
+      ],
+      "answer": "Je me suis rendu compte du bug.",
+      "skill": "false-friend"
+    },
+    {
+      "id": "fr-b2-6",
+      "level": "B2",
+      "prompt": "Hier, j'ai codé ___ deux heures.",
+      "choices": [
+        "pendant",
+        "depuis",
+        "pour"
+      ],
+      "answer": "pendant",
+      "skill": "prep"
+    },
+    {
+      "id": "fr-c1-1",
+      "level": "C1",
+      "prompt": "Les erreurs que j'ai ___ hier étaient critiques.",
+      "choices": [
+        "corrigées",
+        "corrigé",
+        "corrigés"
+      ],
+      "answer": "corrigées",
+      "skill": "adj-agree"
+    },
+    {
+      "id": "fr-c1-2",
+      "level": "C1",
+      "prompt": "Bien que le code ___ propre, il plante.",
+      "choices": [
+        "soit",
+        "est",
+        "sera"
+      ],
+      "answer": "soit",
+      "skill": "subjunctive"
+    },
+    {
+      "id": "fr-c1-3",
+      "level": "C1",
+      "prompt": "Il a dit qu'il ___ déjà le correctif (before that).",
+      "choices": [
+        "avait déployé",
+        "a déployé",
+        "déployait"
+      ],
+      "answer": "avait déployé",
+      "skill": "past-aspect"
+    },
+    {
+      "id": "fr-c1-4",
+      "level": "C1",
+      "prompt": "Most formal: \"We couldn't finish.\" →",
+      "choices": [
+        "Nous n'avons pas pu terminer.",
+        "On a pas pu finir.",
+        "Nous avons pas pu terminer."
+      ],
+      "answer": "Nous n'avons pas pu terminer.",
+      "skill": "negation"
+    },
+    {
+      "id": "fr-c1-5",
+      "level": "C1",
+      "prompt": "\"Send me the logs?\" — \"Je ___ envoie.\"",
+      "choices": [
+        "te les",
+        "les te",
+        "te leur"
+      ],
+      "answer": "te les",
+      "skill": "pronoun-order"
+    },
+    {
+      "id": "fr-c1-6",
+      "level": "C1",
+      "prompt": "Il y a eu ___ en prod.",
+      "choices": [
+        "un gros problème",
+        "une grosse problème",
+        "un grosse problème"
+      ],
+      "answer": "un gros problème",
+      "skill": "gender"
+    }
+  ]
+}

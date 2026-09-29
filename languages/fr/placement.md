@@ -1,32 +1,20 @@
-# French 🇫🇷 placement test (10 questions, ~2 min)
+# French 🇫🇷 placement notes
 
-Show all 10 in one message and ask the user to answer by number, e.g. `1b 2 la 3 j'ai …`. "?" or "skip" = don't know; that's fine, **no guessing encouraged**. Say it takes ~2 minutes, accents are optional, and it can be skipped (then default `level: A1`).
+The item bank lives in `placement.json` (30 multiple-choice items, 6 per level A1–C1, adaptive). These notes are for humans and `/sprachy why`.
 
-Questions go A1 → C1, so a beginner can stop early.
+## What the items cover
+- **A1:** avoir for age/need (*j'ai 25 ans*), le/la, ne…pas placement, à + city, avoir as the default auxiliary.
+- **A2:** être with motion verbs (*je suis allé*), *pas de* after negation, en + country, indirect pronoun *lui*, basic adjective agreement.
+- **B1:** passé composé vs imparfait, preverbal object pronouns (*je le corrige*), depuis vs pendant, *actuellement* false friend, *une erreur* gender.
+- **B2:** subjunctive after *il faut que*, c'est vs il est, reflexive + être, *se rendre compte* vs *réaliser*.
+- **C1:** past-participle agreement with a preceding object, *bien que* + subjunctive, plus-que-parfait, double pronouns (*te les*), formal register.
+- Every distractor is a typical English-speaker error (être/avoir swap, post-verbal pronoun, *pas du*, the calqued false friend).
+- Accents appear in the choices but are never the only difference between two of them.
 
-1. **(A1)** "I'm 25" → J'___ 25 ans. (a) suis (b) ai (c) es
-2. **(A1)** le or la? ___ fonction
-3. **(A1)** Translate: "I need help."
-4. **(A2)** Make it negative: "J'ai du temps."
-5. **(A2)** Passé composé: "Hier, je ___ allé au bureau." (a) ai (b) suis
-6. **(B1)** Replace *le bug* with a pronoun: "Je corrige le bug."
-7. **(B1)** Past tenses: "Je ___ (coder) quand le serveur ___ (planter)."
-8. **(B1)** "I've been working here for three years (and still am)." → Je travaille ici ___ trois ans. (a) pendant (b) depuis (c) pour
-9. **(B2)** Subjunctive: "Il faut que tu ___ (faire) les tests."
-10. **(C1)** Rewrite this more formally, in one sentence: "On a pas fini parce que le client a changé d'avis."
+## Best predictors of level
+- **`pronoun-order` and `past-aspect`** map directly onto the Bartning & Schlyter (2004) stages: preverbal clitics and the PC/imparfait contrast emerge around stage 3 (≈B1). Missing both → ≤A2.
+- **`subjunctive`** is systematic only at stages 5–6, so a correct B2/C1 subjunctive is strong evidence of ≥B2.
+- **`gender` and `adj-agree`** are weak predictors: errors persist even in advanced speakers (Dewaele & Véronique 2001). Don't down-rank on them alone.
+- **`avoir-expr` and `aux-etre`** separate A0 from A1/A2 well, but plateau quickly.
 
-## Answer key
-Ignore missing accents everywhere.
-1b · 2 la · 3 "J'ai besoin d'aide." · 4 "Je n'ai pas **de** temps." (*je n'ai pas du temps* = wrong; missing *ne* = fine) · 5b · 6 "Je **le** corrige." · 7 codais … a planté (both needed) · 8b · 9 fasses · 10 open answer. Look for restored *ne*, *nous* for *on*, and nominal style, e.g. "Nous n'avons pas pu terminer en raison d'un changement d'avis du client." Give it 0, ½, or 1 point.
-
-## Scoring → level
-| Correct | Level |
-|---|---|
-| 0 | A0 (total beginner: start with micro-lessons in English) |
-| 1–2 | A1 |
-| 3–4 | A2 |
-| 5–7 | B1 |
-| 8–9 | B2 |
-| 10 | C1 |
-
-If the user got all of the B1 items (6–8) right but scored lower overall, round up. Items 6–7 (pronoun placement, PC vs imparfait) track the Bartning & Schlyter stages and are the best predictors of level (see method.md §Readiness).
+See `method.md` §3 for the full acquisition order and sources.

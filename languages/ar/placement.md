@@ -1,31 +1,20 @@
-# Arabic 🇸🇦 placement test (10 questions, ~2 min)
+# Arabic 🇸🇦 placement notes
 
-Show all 10 in one message and ask the user to answer by number, e.g. `1b 2a 3 ahtaj …`. "?" or "skip" = don't know; that's fine, **no guessing encouraged**. Say it takes ~2 minutes and can be skipped (then default `level: A1`). **Arabizi/romanized answers and dialect answers count as correct** if the grammar is right.
+The adaptive bank lives in `placement.json`: 30 multiple-choice items, 6 per level (A1–C1), with 6 different skills at each level. The target is MSA. Dialect forms never appear as wrong answers.
 
-Questions go A1 → C1, so a beginner can stop early. Items 1–4 show a transliteration for users who can't read the script yet.
+## What the items cover
+- **A1:** survival vocab, tech words (مجلد vs ملف), `pronoun-suffix` (ملفي), verb person (أعمل), negation (لا يعمل), and basic `gender-agree` on adjectives. Every prompt has a transliteration, and the choices show Arabic plus translit, so the learner doesn't need to read the script.
+- **A2:** `gender-agree` on verbs (هي تعمل), `definite` (الملف), `adj-agree` with ال, `prep` (يبحث عن), plural verb forms, and attached pronouns (إليّ).
+- **B1:** `idafa` (ملف البرنامج), `nonhuman-plural` (الملفات كبيرة), VSO singular verb (كتب المطورون), pronoun suffixes on verbal nouns (مساعدتي), feminine verb agreement, and verbs that take a fixed preposition.
+- **B2:** `dual`, adjectives after an idafa, the relative pronoun التي for non-human plurals, لم + jussive, feminine VSO agreement, and idafa with a possessive suffix.
+- **C1:** 3–10 number agreement (ثلاثة ملفات), dropping the ن of the dual in idafa (ملفا البرنامج), adjective agreement with the head of an idafa, لأنه, the preposition after مسؤول, and ال on generic nouns.
 
-1. **(A1)** شكرًا (*shukran*) means: (a) hello (b) thanks (c) please
-2. **(A1)** أنا (*ana*) means: (a) you (b) I (c) he
-3. **(A1)** Translate: "I need help." (script or Arabizi)
-4. **(A2)** "She works at a company." → هي ___ في شركة. (a) يعمل *yaʿmal* (b) تعمل *taʿmal*
-5. **(A2)** "The big file" → الملف ___ (a) كبير (b) الكبير
-6. **(B1)** "The program's file" → (a) الملف البرنامج (b) ملف البرنامج (c) البرنامج ملف
-7. **(B1)** "The files are big." → الملفات ___ (a) كبيرون (b) كبيرة (c) كبير
-8. **(B1)** "The developers wrote the code." → ___ المطورون الكود. (a) كتب (b) كتبوا
-9. **(B2)** Write "two files" in one word (ملف = file).
-10. **(C1)** "Three files" → ___ ملفات (a) ثلاث (b) ثلاثة
+## Distractor design
+Every wrong option is a documented English-speaker error: ال on the idafa head, the masculine default, a plural verb in VSO, human agreement for non-human plurals, a separate pronoun instead of a suffix (ملف أنا), the English copula (ليس يعمل, الأمان هو), or an English-style preposition.
 
-## Answer key
-1b · 2b · 3 "أحتاج مساعدة" (*aḥtāju musāʿada*); accept *urīd musāʿada*, dialect *ana 3ayez/biddi musa3da*, with or without أنا · 4b · 5b · 6b · 7b · 8a (verb before subject stays singular) · 9 ملفان / ملفين (*milaffān / milaffayn*, either case) · 10b (masculine noun takes the ة-form of 3–10)
+## Best level predictors
+- **`idafa`, `nonhuman-plural`, VSO `verb-agree` (B1):** these separate A-level from B-level learners best, because agreement *within* a phrase comes before agreement *across* phrases (Nielsen 1997; Mansouri 2000/2005; see method.md §3).
+- **`definite` + `adj-agree`:** the most frequent meaning-level errors, and a strong A2 signal.
+- **Weak predictors:** vocab items (A1) and C1 number-noun agreement, which even advanced learners and many native writers get wrong.
 
-## Scoring → level
-| Correct | Level |
-|---|---|
-| 0 | A0 (total beginner: start with micro-lessons in English) |
-| 1–2 | A1 |
-| 3–4 | A2 |
-| 5–7 | B1 |
-| 8–9 | B2 |
-| 10 | C1 |
-
-If the user got items 5–7 right but scored lower overall, round up to B1. Items 5–7 test definiteness agreement, idafa and non-human plural agreement, which are the best level predictors (phrasal before interphrasal agreement; see method.md §3). Items 1–2 are vocabulary-only, so a score of 2 from those alone means A1, not higher.
+Items avoid case endings, vowel marks and hamza-seat distinctions, which the pack never corrects.
