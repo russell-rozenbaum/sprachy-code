@@ -2,6 +2,7 @@
 name: sprachy
 description: Sprachy language-tutor controls and method for the sprachy-code plugin. Use when the user runs /sprachy (help, language, status, test, review, why, level, on, off, statusline), asks to switch or pick a language to learn, asks about their language-learning progress or level, or when you need the detailed correction method behind the per-turn sprachy reminder.
 argument-hint: "[help|language|status|test|review|why|level <A0-C2>|on|off|statusline]"
+allowed-tools: Bash(python3:*)
 ---
 
 # Sprachy: learn a language while you code
@@ -12,13 +13,23 @@ Sprachy Terminal is the in-editor companion to the Sprachy app. The hook adds a 
 - **Language packs:** `${CLAUDE_PLUGIN_ROOT}/languages/<code>/`, each with `pack.json`, `method.md` and `placement.md`.
 - **Learner state:** `~/.sprachy-code/` (or `$SPRACHY_HOME`), with `config.json` for the active language, a global `off` flag, and a `<code>/` folder per language holding `profile.md` (which you maintain), `log.jsonl` (hooks only) and `cooldown`.
 
+## Live state (already loaded, so don't re-run these)
+
+Languages (▶ = active):
+!`python3 "${CLAUDE_PLUGIN_ROOT}/scripts/sprachy.py" languages`
+
+Status:
+!`python3 "${CLAUDE_PLUGIN_ROOT}/scripts/sprachy.py" status`
+
+**Speed rule:** `help`, `language` and `status` need **no tool calls** before their first visible output. Use the live state above.
+
 ## Commands (`$ARGUMENTS`)
 
 | Arg | Do |
 |---|---|
-| *(none)* / `help` | Print the **help card** below as-is, then one line from the CLI `status` (the first line only). |
+| *(none)* / `help` | Print the **help card** below as-is, then the first line of the live status. |
 | `language` / `lang` | Open the **language menu** (see below). |
-| `status` | Run the CLI `status` and show it in a code block. Then add ≤2 lines from the active `profile.md` "Focus next". |
+| `status` | Show the live status in a code block. That's all; no extra reads. |
 | `test` | Run the active pack's `placement.md`, then do **After scoring**. |
 | `review` | Give 3–5 quick drills, one at a time, on the most-missed patterns in the CLI `status` output. Grade tersely, then append 1–3 dated bullets to the `## Notes` section of `profile.md`. |
 | `why` | Expand the last flagged correction: the rule, 2 examples and 1 try-it sentence, in ≤8 lines. Use the active pack's `method.md`. |
@@ -42,8 +53,8 @@ task first. At most one tiny fix every ~3 prompts, and only the ones that matter
 ```
 
 ### Language menu
-1. Run the CLI `languages`. It lists every pack with its flag, name, native name, current progress, and `▶` on the active one.
-2. Call **AskUserQuestion** with a single question, "Which language do you want to practice?", header "Language". Make one option per pack: label `<flag> <Name>`, and description `<Native name> · <progress or "new">`. Add "(current)" to the label of the active pack. If there are more than 4 packs, show the active pack plus the 3 with the most XP; the built-in "Other" option covers the rest by name or code.
+1. Use the live language list above. It already shows each pack's flag, name, native name, progress, and `▶` on the active one.
+2. Immediately call **AskUserQuestion** with a single question, "Which language do you want to practice?", header "Language". Make one option per pack: label `<flag> <Name>`, and description `<Native name> · <progress or "new">`. Add "(current)" to the label of the active pack. If there are more than 4 packs, show the active pack plus the 3 with the most XP; the built-in "Other" option covers the rest by name or code.
 3. Run the CLI `use <code>` and echo its one-line result.
 4. If that language has no level yet, offer in one line: "Take the 2-minute placement test? `/sprachy test`".
 
