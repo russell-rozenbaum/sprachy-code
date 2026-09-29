@@ -1,10 +1,20 @@
 {
-  "name": "denglisch",
-  "version": "0.1.0",
-  "description": "Learn German while you code: brief, research-backed corrections on English, German, or Denglisch prompts, spaced review, and an XP status line.",
-  "author": { "name": "Russ Rozenbaum" },
-  "homepage": "https://github.com/russell-rozenbaum/claude-denglisch",
-  "repository": "https://github.com/russell-rozenbaum/claude-denglisch",
+  "name": "sprachy-code",
+  "version": "0.2.0",
+  "description": "Sprachy Terminal: learn German, Russian, French or Arabic while you code. Rare, tiny, research-backed corrections on English or mixed-language prompts, spaced review, and an XP status line.",
+  "author": {
+    "name": "Russ Rozenbaum"
+  },
+  "homepage": "https://github.com/russell-rozenbaum/sprachy-code",
+  "repository": "https://github.com/russell-rozenbaum/sprachy-code",
   "license": "MIT",
-  "keywords": ["german", "language-learning", "deutsch", "tutor", "skill"]
+  "keywords": [
+    "language-learning",
+    "german",
+    "russian",
+    "french",
+    "arabic",
+    "tutor",
+    "sprachy"
+  ]
 }

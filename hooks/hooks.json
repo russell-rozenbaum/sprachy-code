@@ -1,11 +1,11 @@
 {
-  "description": "claude-denglisch: per-turn German tutor reminder + silent progress logging",
+  "description": "sprachy-code: per-turn language tutor reminder + silent progress logging",
   "hooks": {
     "UserPromptSubmit": [
-      { "hooks": [{ "type": "command", "command": "python3 \"${CLAUDE_PLUGIN_ROOT}/scripts/denglisch.py\" prompt", "timeout": 5 }] }
+      { "hooks": [{ "type": "command", "command": "python3 \"${CLAUDE_PLUGIN_ROOT}/scripts/sprachy.py\" prompt", "timeout": 5 }] }
     ],
     "Stop": [
-      { "hooks": [{ "type": "command", "command": "python3 \"${CLAUDE_PLUGIN_ROOT}/scripts/denglisch.py\" stop", "timeout": 5 }] }
+      { "hooks": [{ "type": "command", "command": "python3 \"${CLAUDE_PLUGIN_ROOT}/scripts/sprachy.py\" stop", "timeout": 5 }] }
     ]
   }
 }

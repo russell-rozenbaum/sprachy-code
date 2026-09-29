@@ -1,6 +1,6 @@
 # Incidental German correction in coding chats: research notes
 
-This is the research basis for `skills/denglisch/references/method.md`. Coverage runs from 2020–2026, plus foundational work. Compiled 2026-09-29.
+This is the research basis for `skills/sprachy/references/method.md` and `languages/*/method.md`. Coverage runs from 2020–2026, plus foundational work. Compiled 2026-09-29.
 
 ## 1. Oral and interactional corrective feedback
 - **Lyster & Saito (2010):** a meta-analysis of 15 classroom studies (N=827). Corrective feedback has significant, durable effects. **Prompts beat recasts.** Prompts are elicitation, metalinguistic clues, clarification requests and repetition. A recast simply restates the sentence correctly. The largest effects were on free-production measures. https://eric.ed.gov/?id=EJ892626

@@ -1,4 +1,4 @@
-# Placement test (10 questions, ~2 min)
+# German 🇩🇪 placement test (10 questions, ~2 min)
 
 Show all 10 in one message and ask the user to answer by number, e.g. `1b 2a 3 ich bin …`. "?" or "skip" = don't know; that's fine, **no guessing encouraged**. Say it takes ~2 minutes and can be skipped (then default `level: A1`).
 
@@ -29,8 +29,3 @@ Questions go A1 → C1, so a beginner can stop early.
 | 10 | C1 |
 
 If the user got all of the B1 items (6–8) right but scored lower overall, round up. Items 6–8 test word order and case, which are the best predictors of level (see method.md §Readiness).
-
-## After scoring
-1. Run `denglisch.py level <X>`.
-2. Fill in `profile.md` from the template in SKILL.md. Put the right answers under "Strengths". Under "Focus next", list the first **one or two** missed items only, starting with the lowest-level miss.
-3. Reply in 3 lines or fewer: the level, one strength, and a first micro-goal for the next prompt. Example: *Next prompt: start with "Kannst du …" instead of "Can you …"*.

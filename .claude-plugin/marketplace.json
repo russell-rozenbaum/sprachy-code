@@ -1,14 +1,14 @@
 {
-  "name": "claude-denglisch",
-  "description": "Learn German while you code with Claude.",
+  "name": "sprachy-code",
+  "description": "Sprachy Terminal: learn a language while you code with Claude.",
   "owner": {
     "name": "Russ Rozenbaum"
   },
   "plugins": [
     {
-      "name": "denglisch",
+      "name": "sprachy-code",
       "source": "./",
-      "description": "Learn German while you code: brief corrections, spaced review, XP status line.",
+      "description": "Sprachy Terminal: learn German, Russian, French or Arabic while you code. Rare, tiny, research-backed corrections on English or mixed-language prompts, spaced review, and an XP status line.",
       "category": "learning"
     }
   ]

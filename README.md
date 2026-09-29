@@ -1,70 +1,80 @@
-# claude-denglisch 🇩🇪
+# sprachy-code 🌐 (Sprachy Terminal)
 
-**Learn German while you code.** You already spend hours a day talking to Claude, so this plugin turns that time into language practice without slowing your work down.
+**Learn a language while you code.** You already spend hours a day talking to Claude, so Sprachy Terminal turns that time into practice without getting in your way. It's the in-editor companion to [Sprachy](https://github.com/russell-rozenbaum), *the translator that teaches*.
 
-Write your prompts in English, German, or *Denglisch*. Claude does the task first, then sometimes adds **one** short line:
-
-```
-🇩🇪 weil es kaputt **ist** — if you mean 'because it's broken' [verb-final]
-```
+Write your prompts in English, in the language you're learning, or a mix (*Denglisch*, *Franglais*, translit, Arabizi, all fine). Claude does the task first. Every few prompts, and only when it matters, it adds **one** tiny fix:
 
 ```
-     ┌───────────── your status line ─────────────┐
-     │ 🇩🇪 ✓ B1 · Lv3 ▰▰▱▱▱ 340xp                  │
-     └────────────────────────────────────────────┘
+🇩🇪 …weil es kaputt **ist** (verb last) [verb-final]
 ```
+
+```
+ ┌──────── your status line ────────┐
+ │ 🇩🇪 ✓ B1 · Lv3 ▰▰▱▱▱ 340xp        │
+ └──────────────────────────────────┘
+```
+
+| Language | Mixed-input nickname | Notes |
+|---|---|---|
+| 🇩🇪 German | Denglisch | Focus on word order first; umlauts typed as ae/oe/ue are fine |
+| 🇷🇺 Russian | — | Translit (e.g. `privet`) is fine |
+| 🇫🇷 French | Franglais | Missing accents are fine |
+| 🇸🇦 Arabic (MSA) | — | Arabizi (e.g. `shukran`, `3`) is fine; dialect words are tolerated |
+
+The source language is always English. Adding a language means adding one folder; see [the language pack contract](docs/plans/language-pack-contract.md).
 
 ## Install
 
 ```
-/plugin marketplace add russell-rozenbaum/claude-denglisch
-/plugin install denglisch@claude-denglisch
+/plugin marketplace add russell-rozenbaum/sprachy-code
+/plugin install sprachy-code@sprachy-code
 ```
+Requires `python3` (standard library only). Then run `/sprachy language` to pick a language, and `/sprachy test` to set your level.
 
-Requires `python3` (stdlib only). Then:
+## Commands
 
 | Command | What it does |
 |---|---|
-| `/denglisch test` | Quick 10-question placement test, A0 → C1 (~2 min) |
-| `/denglisch status` | Level, XP, and which mistakes you've learned vs. still practising |
-| `/denglisch review` | 3–5 quick drills on your most-missed patterns |
-| `/denglisch why` | Explains the last correction in more detail |
-| `/denglisch level B1` | Sets your level manually |
-| `/denglisch on` / `off` | Turns the tutor on or off (off = no tokens, no footers) |
-| `/denglisch statusline` | Adds the XP badge to your status line (asks first) |
+| `/sprachy` · `/sprachy help` | Shows all commands |
+| `/sprachy language` | Menu to pick or switch languages (progress is saved separately for each) |
+| `/sprachy status` | Level, XP, and which patterns you're still learning vs. have learned |
+| `/sprachy test` | 10-question placement test (about 2 min, A0 → C1) |
+| `/sprachy review` | 3–5 quick drills on your most-missed patterns |
+| `/sprachy why` | Explains the last correction in more depth |
+| `/sprachy level B1` | Sets your level manually |
+| `/sprachy on` / `off` | Pauses the tutor (off = zero tokens) |
+| `/sprachy statusline` | Adds the XP badge to your status line |
 
-Depending on your Claude Code version, plugin commands may be namespaced as `/denglisch:denglisch …`.
+Depending on your Claude Code version, the command may be namespaced as `/sprachy-code:sprachy …`.
+
+## Never annoying, by design
+
+- **Cooldown:** after a correction, the next 2 replies are silent. The hook enforces this; Claude doesn't have to remember.
+- **One fix per correction, as a short fragment only**, and only if the mistake hides your meaning or keeps recurring. Typos, accents, and mixed-in English are ignored.
+- **Level-aware:** it never corrects things you aren't ready to learn yet.
+- **Zero overhead for logging:** a hook reads Claude's reply, so there are no extra tool calls or permission prompts.
 
 ## How it works
 
 | Piece | Job | Cost |
 |---|---|---|
-| `UserPromptSubmit` hook | Adds a short tutor reminder to each prompt: your level, the rules, and one review item that's due. Also credits XP for German you wrote. | ~250–300 tokens/prompt; 0 when off |
-| `Stop` hook | Reads the 🇩🇪 line in Claude's reply and logs it to `~/.denglisch/log.jsonl` | 0 tokens, no tool calls |
-| `denglisch` skill | Commands, the placement test, and the full correction method | loads only when used |
-| `statusline` | `🇩🇪 ✓ B1 · Lv3 ▰▰▱▱▱` badge | 0 tokens |
+| `UserPromptSubmit` hook | Adds the tutor reminder: level, rules, one review that's due, cooldown state. Also credits XP. | ~300 tokens on active turns, ~30 on quiet turns, 0 when off |
+| `Stop` hook | Logs the flag line from Claude's reply to `~/.sprachy-code/<lang>/log.jsonl` | 0 tokens |
+| `sprachy` skill | Commands, menu, placement test, method | Only loaded when used |
+| `languages/<code>/` | `pack.json` (detection, tags), `method.md`, `placement.md` | Loaded on demand |
 
-Your data lives in `~/.denglisch/` (change it with `DENGLISCH_HOME`): `profile.md` (level + notes), `log.jsonl` (events), and `off` (the off switch). Everything is plain text, stays local, and is yours.
+**XP:** you earn +1 per target-language word you write (max 15 per prompt), +2 per correction, and +10 when you fix a past mistake. Each rank costs more XP than the last.
 
-**XP:** you earn +1 per German word you write (max 15 per prompt), +2 per correction (trying beats not trying), and +10 when you get a past mistake right. Each rank costs more XP than the last, so leveling up slows down over time.
+**Spaced review:** past mistakes come back after 1, 3, 7, then 21 days, and retire after 3 correct uses.
 
-## The method (research-backed)
-
-- **One focused correction at most, at the end of the reply.** Focused written feedback beats correcting everything (Sheen 2007; Bitchener & Knoch 2010), and it doesn't get in the way of your work.
-- **Only the changed words are bold.** You only learn a correction you actually notice (Schmidt 1990).
-- **The type of correction depends on the mistake.** Rule mistakes like word order get a tiny rule, or a nudge to fix it yourself. One-off mistakes like der/die/das just get the right answer (Lyster & Saito 2010; Yang & Lyster 2010).
-- **It only corrects what you're ready for.** Learners pick up German word order in a fixed sequence, and case comes late (Pienemann 1998; Diehl et al. 2000).
-- **Mixing languages is welcome.** Denglisch is a learning scaffold, not a mistake (translanguaging; Wang & Zhang 2026).
-- **Past mistakes come back on a schedule:** after 1, 3, 7, then 21 days. A mistake retires after you get it right 3 times (Kim & Webb 2022).
-
-Full notes and citations: [`docs/research/sla-methods.md`](docs/research/sla-methods.md).
+Research notes and citations: [`docs/research/sla-methods.md`](docs/research/sla-methods.md).
 
 ## Develop
 
 ```
-claude --plugin-dir .                     # try it locally
-python3 -m unittest discover -s tests     # run the tests
-claude plugin validate .                  # check the plugin files
+claude --plugin-dir .                   # try it locally
+python3 -m unittest discover -s tests   # tests, including a contract check on every language pack
+claude plugin validate .
 ```
 
 MIT licensed.
