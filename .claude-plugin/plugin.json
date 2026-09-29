@@ -1,0 +1,10 @@
+{
+  "name": "denglisch",
+  "version": "0.1.0",
+  "description": "Learn German while you code: brief, research-backed corrections on English, German, or Denglisch prompts, spaced review, and an XP status line.",
+  "author": { "name": "Russ Rozenbaum" },
+  "homepage": "https://github.com/russell-rozenbaum/claude-denglisch",
+  "repository": "https://github.com/russell-rozenbaum/claude-denglisch",
+  "license": "MIT",
+  "keywords": ["german", "language-learning", "deutsch", "tutor", "skill"]
+}

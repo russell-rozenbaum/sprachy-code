@@ -1,0 +1,15 @@
+{
+  "name": "claude-denglisch",
+  "description": "Learn German while you code with Claude.",
+  "owner": {
+    "name": "Russ Rozenbaum"
+  },
+  "plugins": [
+    {
+      "name": "denglisch",
+      "source": "./",
+      "description": "Learn German while you code: brief corrections, spaced review, XP status line.",
+      "category": "learning"
+    }
+  ]
+}
